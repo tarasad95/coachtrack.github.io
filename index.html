@@ -18,6 +18,18 @@
     }
     a { color: var(--accent); }
 
+    /* Language toggle */
+    .langbar {
+      position: fixed; top: 16px; right: 16px; z-index: 10;
+      display: flex; gap: 3px; padding: 3px; border-radius: 11px;
+      background: rgba(15,17,23,0.28); border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(6px);
+    }
+    .seg {
+      border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 12px;
+      padding: 5px 11px; border-radius: 8px; color: rgba(255,255,255,0.85); background: transparent;
+    }
+    .seg.on { background: #fff; color: var(--accent2); }
+
     /* Hero */
     .hero {
       background: linear-gradient(135deg, #7C8BFF 0%, #4F5FE0 100%);
@@ -39,7 +51,7 @@
     /* Features */
     .section { max-width: 1040px; margin: 0 auto; padding: 72px 24px; }
     .section h2 { font-size: 28px; text-align: center; margin: 0 0 8px; }
-    .section .sub { text-align: center; color: var(--muted); margin: 0 auto 44px; max-width: 560px; }
+    .section .sub { text-align: center; color: var(--muted); margin: 0 auto 44px; max-width: 600px; }
     .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
     .card .ico {
@@ -67,46 +79,49 @@
     }
   </style>
 </head>
-<body>
+<body data-lang="en">
+  <div class="langbar">
+    <button class="seg on" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="seg" data-lang="uk" onclick="setLang('uk')">УКР</button>
+  </div>
+
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
       <div>
         <img class="logo" src="data:image/png;base64,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" alt="Coach Track logo" />
-        <h1>Train clients,<br/>track progress.</h1>
-        <p>
+        <h1 data-i18n="hero_h1">Train clients,<br/>track progress.</h1>
+        <p data-i18n="hero_p">
           Coach Track is a fast, focused app for fitness and CrossFit coaches —
           your whole roster, every result, and each athlete's progress in one place.
         </p>
+        <div class="cta">
+          <a class="btn solid" href="support.html" data-i18n="btn_support">Support</a>
+          <a class="btn outline" href="privacy-policy.html" data-i18n="btn_privacy">Privacy Policy</a>
+        </div>
       </div>
       <div class="phone-wrap">
-        <!-- Phone mockup illustration -->
         <svg width="260" height="430" viewBox="0 0 260 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="App preview">
           <rect x="6" y="6" width="248" height="418" rx="40" fill="#0F1117" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
           <rect x="96" y="20" width="68" height="10" rx="5" fill="#22263A"/>
-          <!-- title -->
           <rect x="28" y="52" width="120" height="14" rx="7" fill="#2E3248"/>
-          <!-- avatar -->
           <circle cx="130" cy="112" r="30" fill="#2A2F5A"/>
           <g transform="rotate(-18 130 112)" fill="#6C7CFF">
             <rect x="98" y="104" width="9" height="32" rx="4"/>
             <rect x="153" y="104" width="9" height="32" rx="4"/>
             <rect x="112" y="110" width="36" height="9" rx="4"/>
           </g>
-          <!-- progress card -->
           <rect x="28" y="160" width="204" height="120" rx="16" fill="#1A1D27" stroke="#2E3248"/>
           <rect x="42" y="176" width="46" height="8" rx="4" fill="#6B7399"/>
           <rect x="42" y="190" width="34" height="12" rx="6" fill="#F0F2FF"/>
           <polyline points="44,256 84,238 120,246 156,214 196,196" fill="none" stroke="#6C7CFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="196" cy="196" r="4.5" fill="#6C7CFF"/>
-          <!-- list rows -->
           <rect x="28" y="298" width="204" height="34" rx="10" fill="#1A1D27" stroke="#2E3248"/>
           <rect x="40" y="309" width="90" height="8" rx="4" fill="#B0B8D8"/>
           <rect x="186" y="307" width="34" height="12" rx="6" fill="#6C7CFF"/>
           <rect x="28" y="340" width="204" height="34" rx="10" fill="#1A1D27" stroke="#2E3248"/>
           <rect x="40" y="351" width="70" height="8" rx="4" fill="#B0B8D8"/>
           <rect x="190" y="349" width="30" height="12" rx="6" fill="#6C7CFF"/>
-          <!-- FAB -->
           <circle cx="210" cy="392" r="16" fill="#6C7CFF"/>
           <rect x="203" y="391" width="14" height="2.4" rx="1.2" fill="#fff"/>
           <rect x="208.8" y="385" width="2.4" height="14" rx="1.2" fill="#fff"/>
@@ -117,50 +132,38 @@
 
   <!-- FEATURES -->
   <section class="section">
-    <h2>Everything a coach needs</h2>
-    <p class="sub">No spreadsheets. Just your athletes and their results, organized and always with you.</p>
+    <h2 data-i18n="feat_title">Everything a coach needs</h2>
+    <p class="sub" data-i18n="feat_sub">No spreadsheets. Just your athletes and their results, organized and always with you.</p>
     <div class="grid">
       <div class="card">
-        <div class="ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
-        </div>
-        <h3>Client roster</h3>
-        <p>Add clients with photo, email, phone and Instagram. Search instantly by name, email or phone.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <h3 data-i18n="c1h">Client roster</h3>
+        <p data-i18n="c1p">Add clients with photo, email, phone and Instagram. Search instantly by name, email or phone.</p>
       </div>
       <div class="card">
-        <div class="ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V9m7 12V3m7 18v-7"/></svg>
-        </div>
-        <h3>Progress &amp; PRs</h3>
-        <p>Automatic personal bests and a trend chart for every activity, with a latest-vs-best summary.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V9m7 12V3m7 18v-7"/></svg></div>
+        <h3 data-i18n="c2h">Progress &amp; PRs</h3>
+        <p data-i18n="c2p">Automatic personal bests and a trend chart for every activity, with a latest-vs-best summary.</p>
       </div>
       <div class="card">
-        <div class="ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.9A2 2 0 0 0 6.93 3H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg>
-        </div>
-        <h3>Groups</h3>
-        <p>Organize athletes into groups — a client can belong to several. Collapse, rename and search them.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.9A2 2 0 0 0 6.93 3H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg></div>
+        <h3 data-i18n="c3h">Groups</h3>
+        <p data-i18n="c3p">Organize athletes into groups — a client can belong to several. Collapse, rename and search them.</p>
       </div>
       <div class="card">
-        <div class="ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg>
-        </div>
-        <h3>Photos</h3>
-        <p>Attach a photo to any result or client — straight from the camera or your gallery.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg></div>
+        <h3 data-i18n="c4h">Photos</h3>
+        <p data-i18n="c4p">Attach a photo to any result or client — straight from the camera or your gallery.</p>
       </div>
       <div class="card">
-        <div class="ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>
-        </div>
-        <h3>Bilingual</h3>
-        <p>Ukrainian and English, switchable anytime. Light and dark themes built in.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg></div>
+        <h3 data-i18n="c5h">Bilingual</h3>
+        <p data-i18n="c5p">Ukrainian and English, switchable anytime. Light and dark themes built in.</p>
       </div>
       <div class="card">
-        <div class="ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <h3>Your data, private</h3>
-        <p>Each coach's data is scoped to their account. Delete records, clients, or your account anytime.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3 data-i18n="c6h">Your data, private</h3>
+        <p data-i18n="c6p">Each coach's data is scoped to their account. Delete records, clients, or your account anytime.</p>
       </div>
     </div>
   </section>
@@ -168,30 +171,78 @@
   <!-- ABOUT -->
   <div class="about">
     <section class="section">
-      <h2>Built for coaches who care about progress</h2>
-      <p class="sub" style="margin-bottom:28px;">A closer look at how Coach Track fits into your week.</p>
-      <p>
-        Coach Track is made for strength and conditioning coaches who run programs for many
-        athletes at once. Instead of juggling notebooks and spreadsheets, you keep your entire
-        roster, every logged result, and each athlete's history in one fast app that lives in
-        your pocket — ready between sets, at the whiteboard, or after a session.
-      </p>
-      <p>
-        Logging is quick and flexible: record lifts, times, reps, rounds and more, with
-        sets×reps, notes and a photo. Your most-used activities surface first and autocomplete
-        as you type, so a full session takes seconds. Every entry feeds automatic personal
-        bests and a clean trend chart, so you and your athletes can actually see the progress.
-      </p>
-      <p>
-        And it stays out of your way: a focused, one-handed interface, two languages, light and
-        dark themes, and privacy by design — your data belongs to you, and you can remove it at
-        any time.
-      </p>
+      <h2 data-i18n="about_title">Built for coaches who care about progress</h2>
+      <p class="sub" style="margin-bottom:28px;" data-i18n="about_sub">A closer look at how Coach Track fits into your week.</p>
+      <p data-i18n="about_p1">Coach Track is made for strength and conditioning coaches who run programs for many athletes at once. Instead of juggling notebooks and spreadsheets, you keep your entire roster, every logged result, and each athlete's history in one fast app that lives in your pocket — ready between sets, at the whiteboard, or after a session.</p>
+      <p data-i18n="about_p2">Logging is quick and flexible: record lifts, times, reps, rounds and more, with sets×reps, notes and a photo. Your most-used activities surface first and autocomplete as you type, so a full session takes seconds. Every entry feeds automatic personal bests and a clean trend chart, so you and your athletes can actually see the progress.</p>
+      <p data-i18n="about_p3">And it stays out of your way: a focused, one-handed interface, two languages, light and dark themes, and privacy by design — your data belongs to you, and you can remove it at any time.</p>
     </section>
   </div>
 
   <footer>
-    © 2026 Coach Track · <a href="privacy-policy.html">Privacy</a> · <a href="support.html">Support</a>
+    © 2026 Coach Track · <a href="privacy-policy.html" data-i18n="f_privacy">Privacy</a> · <a href="support.html" data-i18n="f_support">Support</a>
   </footer>
+
+  <script>
+    const I18N = {
+      en: {
+        hero_h1: "Train clients,<br/>track progress.",
+        hero_p: "Coach Track is a fast, focused app for fitness and CrossFit coaches — your whole roster, every result, and each athlete's progress in one place.",
+        btn_support: "Support", btn_privacy: "Privacy Policy",
+        feat_title: "Everything a coach needs",
+        feat_sub: "No spreadsheets. Just your athletes and their results, organized and always with you.",
+        c1h: "Client roster", c1p: "Add clients with photo, email, phone and Instagram. Search instantly by name, email or phone.",
+        c2h: "Progress &amp; PRs", c2p: "Automatic personal bests and a trend chart for every activity, with a latest-vs-best summary.",
+        c3h: "Groups", c3p: "Organize athletes into groups — a client can belong to several. Collapse, rename and search them.",
+        c4h: "Photos", c4p: "Attach a photo to any result or client — straight from the camera or your gallery.",
+        c5h: "Bilingual", c5p: "Ukrainian and English, switchable anytime. Light and dark themes built in.",
+        c6h: "Your data, private", c6p: "Each coach's data is scoped to their account. Delete records, clients, or your account anytime.",
+        about_title: "Built for coaches who care about progress",
+        about_sub: "A closer look at how Coach Track fits into your week.",
+        about_p1: "Coach Track is made for strength and conditioning coaches who run programs for many athletes at once. Instead of juggling notebooks and spreadsheets, you keep your entire roster, every logged result, and each athlete's history in one fast app that lives in your pocket — ready between sets, at the whiteboard, or after a session.",
+        about_p2: "Logging is quick and flexible: record lifts, times, reps, rounds and more, with sets×reps, notes and a photo. Your most-used activities surface first and autocomplete as you type, so a full session takes seconds. Every entry feeds automatic personal bests and a clean trend chart, so you and your athletes can actually see the progress.",
+        about_p3: "And it stays out of your way: a focused, one-handed interface, two languages, light and dark themes, and privacy by design — your data belongs to you, and you can remove it at any time.",
+        f_privacy: "Privacy", f_support: "Support"
+      },
+      uk: {
+        hero_h1: "Тренуйте клієнтів,<br/>стежте за прогресом.",
+        hero_p: "Coach Track — швидкий і зручний застосунок для тренерів із фітнесу та кросфіту: увесь ваш список клієнтів, кожен результат і прогрес кожного спортсмена в одному місці.",
+        btn_support: "Підтримка", btn_privacy: "Політика конфіденційності",
+        feat_title: "Усе, що потрібно тренеру",
+        feat_sub: "Жодних таблиць. Лише ваші спортсмени та їхні результати — впорядковані й завжди з вами.",
+        c1h: "Список клієнтів", c1p: "Додавайте клієнтів із фото, поштою, телефоном та Instagram. Миттєвий пошук за іменем, поштою чи телефоном.",
+        c2h: "Прогрес і рекорди", c2p: "Автоматичні особисті рекорди та графік динаміки для кожної вправи, з порівнянням «останній / найкращий».",
+        c3h: "Групи", c3p: "Організовуйте спортсменів у групи — клієнт може бути в кількох. Згортайте, перейменовуйте та шукайте їх.",
+        c4h: "Фото", c4p: "Додавайте фото до будь-якого результату чи клієнта — прямо з камери або галереї.",
+        c5h: "Дві мови", c5p: "Українська та англійська, перемикайте будь-коли. Світла й темна теми.",
+        c6h: "Ваші дані під захистом", c6p: "Дані кожного тренера доступні лише його акаунту. Видаляйте записи, клієнтів або акаунт будь-коли.",
+        about_title: "Створено для тренерів, яким важливий прогрес",
+        about_sub: "Як Coach Track вписується у ваш тиждень.",
+        about_p1: "Coach Track створено для тренерів із силової та функціональної підготовки, які ведуть програми одразу для багатьох спортсменів. Замість зошитів і таблиць — увесь ваш список клієнтів, кожен записаний результат та історія кожного спортсмена в одному швидкому застосунку, що завжди під рукою: між підходами, біля дошки чи після тренування.",
+        about_p2: "Запис швидкий і гнучкий: фіксуйте ваги, час, повтори, раунди та інше — з підходами×повтореннями, нотатками й фото. Найчастіші вправи показуються першими та підказуються під час набору, тож ціле тренування займає секунди. Кожен запис формує особисті рекорди й наочний графік динаміки.",
+        about_p3: "І він не заважає: зручний інтерфейс для однієї руки, дві мови, світла й темна теми та приватність за задумом — ваші дані належать вам, і ви можете видалити їх будь-коли.",
+        f_privacy: "Конфіденційність", f_support: "Підтримка"
+      }
+    };
+    function setLang(l) {
+      document.documentElement.lang = l;
+      document.body.dataset.lang = l;
+      const dict = I18N[l] || I18N.en;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        const v = dict[el.getAttribute('data-i18n')];
+        if (v !== undefined) el.innerHTML = v;
+      });
+      document.querySelectorAll('.seg').forEach(function (b) {
+        b.classList.toggle('on', b.dataset.lang === l);
+      });
+      try { localStorage.setItem('lang', l); } catch (e) {}
+    }
+    (function () {
+      let l;
+      try { l = localStorage.getItem('lang'); } catch (e) {}
+      if (!l) l = (navigator.language || '').toLowerCase().indexOf('uk') === 0 ? 'uk' : 'en';
+      setLang(l);
+    })();
+  </script>
 </body>
 </html>
