@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coach Track — Invite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0F1117; --card:#1A1D27; --input:#22263A; --border:#2E3248;
+      --accent:#6C7CFF; --accentSubtle:#2A2F5A; --light:#F0F2FF;
+      --soft:#B0B8D8; --dim:#6B7399;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:'Nunito',sans-serif; }
+    body { background:var(--bg); color:var(--light); min-height:100vh;
+           display:flex; align-items:center; justify-content:center; padding:24px; }
+    .langbar { position:fixed; top:16px; right:16px; display:flex; gap:4px;
+               background:var(--card); border:1px solid var(--border);
+               border-radius:10px; padding:3px; }
+    .seg { border:none; background:transparent; color:var(--dim); font-weight:700;
+           font-size:12px; padding:5px 10px; border-radius:7px; cursor:pointer; }
+    .seg.on { background:var(--accent); color:#fff; }
+    .card { width:100%; max-width:420px; background:var(--card);
+            border:1px solid var(--border); border-radius:20px; padding:32px 28px;
+            text-align:center; }
+    .logo { width:56px; height:56px; fill:var(--accent); margin-bottom:14px; }
+    h1 { font-size:24px; font-weight:800; }
+    .sub { color:var(--dim); font-weight:600; font-size:14px; margin-top:6px; }
+    .code-label { color:var(--soft); font-weight:700; font-size:13px;
+                  margin:24px 0 8px; }
+    .code { background:var(--accentSubtle); border:1px solid var(--accent);
+            border-radius:14px; padding:18px; font-size:34px; font-weight:800;
+            letter-spacing:12px; color:#fff; padding-left:24px; }
+    .expiry { color:var(--dim); font-size:12px; margin-top:8px; }
+    .copy-btn { margin:14px auto 0; display:inline-flex; align-items:center; gap:8px;
+                background:var(--input); color:var(--light); border:1px solid var(--border);
+                border-radius:10px; padding:10px 18px; font-weight:800; font-size:14px;
+                cursor:pointer; transition:background .15s; }
+    .copy-btn:hover { background:var(--accentSubtle); }
+    .copy-btn svg { width:16px; height:16px; fill:currentColor; }
+    ol { text-align:left; margin:24px auto 8px; padding-left:22px; max-width:320px; }
+    ol li { color:var(--soft); font-weight:600; font-size:14px; margin-bottom:10px; line-height:1.45; }
+    ol li b { color:var(--light); }
+    .stores { display:flex; flex-direction:column; gap:12px; margin-top:24px; }
+    .store { display:flex; align-items:center; justify-content:center; gap:10px;
+             height:52px; border-radius:12px; font-weight:800; font-size:15px;
+             text-decoration:none; }
+    .store.ios { background:var(--accent); color:#fff; }
+    .store.android { background:transparent; color:var(--light);
+                     border:1px solid var(--border); }
+    .store svg { width:20px; height:20px; fill:currentColor; }
+    .foot { margin-top:22px; font-size:12px; color:var(--dim); }
+    .foot a { color:var(--accent); text-decoration:none; }
+  </style>
+</head>
+<body data-lang="en">
+  <div class="langbar">
+    <button class="seg on" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="seg" data-lang="uk" onclick="setLang('uk')">УКР</button>
+  </div>
+
+  <div class="card">
+    <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+    <h1 data-i18n="title">You're invited to Coach Track</h1>
+    <p class="sub" data-i18n="sub">Your coach wants to track your progress with you.</p>
+
+    <div class="code-label" data-i18n="code_label">Your invite code</div>
+    <div class="code" id="code">— — — — — —</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyCode()">
+      <svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+      <span data-i18n="copy">Copy code</span>
+    </button>
+    <div class="expiry" data-i18n="expiry">Single use · expires in 7 days</div>
+
+    <ol>
+      <li data-i18n="step1">Download the Coach Track app.</li>
+      <li data-i18n="step2">Open it and tap <b>“Joining a coach? Enter invite code”</b>.</li>
+      <li data-i18n="step3">Enter the code above to join.</li>
+    </ol>
+
+    <div class="stores">
+      <a class="store ios" id="appstore"
+         href="https://apps.apple.com/ua/app/coach-track-app/id6780548803?l=uk">
+        <svg viewBox="0 0 24 24"><path d="M16.36 12.78c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.71-3.19-1.73-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.1 8.79.73 1.06 1.6 2.25 2.74 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.7.71 2.86.69 1.18-.02 1.93-1.08 2.65-2.15.84-1.23 1.18-2.42 1.2-2.48-.03-.01-2.3-.88-2.32-3.5zM14.2 6.3c.6-.74 1.01-1.76.9-2.78-.87.04-1.93.58-2.56 1.31-.56.65-1.05 1.69-.92 2.69.97.07 1.97-.49 2.58-1.22z"/></svg>
+        <span data-i18n="ios">Download on the App Store</span>
+      </a>
+    </div>
+
+    <div class="foot">
+      <a href="index.html" data-i18n="learn">Learn more about Coach Track</a>
+    </div>
+  </div>
+
+  <script>
+    const I18N = {
+      en: {
+        title: "You're invited to Coach Track",
+        sub: "Your coach wants to track your progress with you.",
+        code_label: "Your invite code",
+        expiry: "Single use · expires in 7 days",
+        step1: "Download the Coach Track app.",
+        step2: "Open it and tap <b>“Joining a coach? Enter invite code”</b>.",
+        step3: "Enter the code above to join.",
+        ios: "Download on the App Store",
+        android: "Get it on Google Play",
+        learn: "Learn more about Coach Track",
+        nocode: "Ask your coach for your invite code",
+        copy: "Copy code",
+        copied: "Copied!"
+      },
+      uk: {
+        title: "Вас запросили до Coach Track",
+        sub: "Ваш тренер хоче стежити за вашим прогресом разом із вами.",
+        code_label: "Ваш код запрошення",
+        expiry: "Одноразовий · діє 7 днів",
+        step1: "Завантажте застосунок Coach Track.",
+        step2: "Відкрийте його та натисніть <b>«Приєднуєтесь до тренера? Введіть код запрошення»</b>.",
+        step3: "Введіть код вище, щоб приєднатися.",
+        ios: "Завантажити в App Store",
+        android: "Завантажити в Google Play",
+        learn: "Дізнатися більше про Coach Track",
+        nocode: "Попросіть код запрошення у свого тренера",
+        copy: "Копіювати код",
+        copied: "Скопійовано!"
+      }
+    };
+
+    function param(name) {
+      return new URLSearchParams(location.search).get(name);
+    }
+
+    function setLang(l) {
+      const dict = I18N[l] || I18N.en;
+      document.documentElement.lang = l;
+      document.body.dataset.lang = l;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        const v = dict[el.getAttribute('data-i18n')];
+        if (v !== undefined) el.innerHTML = v;
+      });
+      document.querySelectorAll('.seg').forEach(function (b) {
+        b.classList.toggle('on', b.dataset.lang === l);
+      });
+      // Re-apply the "no code" fallback after switching language.
+      renderCode(dict);
+      try { localStorage.setItem('lang', l); } catch (e) {}
+    }
+
+    function code() {
+      return (param('code') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    }
+
+    function renderCode(dict) {
+      const raw = code();
+      const el = document.getElementById('code');
+      const btn = document.getElementById('copyBtn');
+      if (raw) {
+        el.textContent = raw;
+        el.style.fontSize = '34px';
+        btn.style.display = 'inline-flex';
+      } else {
+        el.textContent = dict.nocode;
+        el.style.fontSize = '15px';
+        el.style.letterSpacing = '0';
+        el.style.paddingLeft = '18px';
+        btn.style.display = 'none';
+      }
+    }
+
+    function legacyCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    function copyCode() {
+      const raw = code();
+      if (!raw) return;
+      const done = function () {
+        const dict = I18N[document.body.dataset.lang] || I18N.en;
+        const span = document.querySelector('#copyBtn span');
+        span.textContent = dict.copied;
+        setTimeout(function () { span.textContent = dict.copy; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(raw).then(done).catch(function () {
+          legacyCopy(raw);
+          done();
+        });
+      } else {
+        legacyCopy(raw);
+        done();
+      }
+    }
+
+    (function () {
+      // Language: ?lang= wins, then stored, then browser.
+      let l = (param('lang') || '').toLowerCase();
+      if (l !== 'en' && l !== 'uk') {
+        try { l = localStorage.getItem('lang'); } catch (e) {}
+      }
+      if (!l) l = (navigator.language || '').toLowerCase().indexOf('uk') === 0 ? 'uk' : 'en';
+      setLang(l);
+    })();
+  </script>
+</body>
+</html>
